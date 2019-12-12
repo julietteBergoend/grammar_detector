@@ -1,0 +1,30 @@
+body{
+  background: #bfafb4;
+}
+
+/*Mise en page de la barre de navigation*/
+.sidebar {
+  height: 620px;
+  position: fixed;
+}
+.footer-text{
+  font-size: 13px;
+  padding-right: 15px;
+}
+.footer{
+  margin-top: 170px;
+}
+.go-outil{
+  color: #abb1cc;
+}
+
+/*corps de la page*/
+.title{
+  background-color: #ad9ea3;
+  padding-left: 5px;
+}
+.text{
+  padding-left: 6px;
+  font-size: 19px;
+  margin-top: 15px;
+}

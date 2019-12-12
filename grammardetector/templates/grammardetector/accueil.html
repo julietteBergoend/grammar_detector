@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <link rel="icon" href="{% static 'media/letter_g.ico' %}" />
+    <title>GrammarDetector - Welcome Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--chargement des fichiers css dans static -->
+
+    <link rel="stylesheet" href="{% static 'css/homepage.css'%}">
+  </head>
+    <body>
+      <!--Entête html -->
+      <nav class="navbar relative-top navbar-expand-sm navbar-dark bg-dark">
+        <p class="navbar-brand">Welcome</p>
+      </nav>
+        <!--Dialogue central-->
+      <div class="container col-lg-6 rounded border-bottom">
+    <div class="jumbotron mt-3 text-center rounded">
+      <h1>Bonjour !<br/> Je suis GrammarDetector</h1>
+      <p class="lead">Je suis votre détecteur grammatical automatique</p>
+      <!--Liens conduisant aux deux autres pages de notre appli-->
+      <a class="btn btn-lg btn-secondary" href="{% url 'aide' %}" target="_blank" role="button">A quoi ça sert ?</a>
+      <a class="btn btn-lg btn-secondary" href="{% url 'outil' %}" target="_blank" role="button">Commençons !</a>
+    </div>
+  </div>
+  <!--Footer-->
+  <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          {% load static %}
+          <a class="nav-link" href="https://www.linkedin.com/in/juliette-bergo%C3%ABnd-76b571180/">
+            <img src="{% static 'media/linkedin_black.png' %}" alt="image" class="img-thumbnail img-fluid" width="30">
+            Juliette Bergoënd
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" tabindex="-1" aria-disabled="true">Master 2 Traitement Automatique des Langues</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  </body>
+</html>

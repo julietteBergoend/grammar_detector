@@ -1,0 +1,100 @@
+body{
+  background: #abb1cc ;
+}
+
+/*position des lignes de blocs*/
+.row1{
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+/*lignes du bloc analyse de la phrase*/
+.row3{
+  margin-left: 10px;
+}
+
+/*customization des titres de blocs*/
+.entrysys{
+  text-decoration: none;
+  font-size: 20px;
+  margin-top: 5px;
+  font-family:monospace;
+  margin-bottom: 0px;
+  padding-left: 5px;
+  }
+.entryresp{
+  background-color: #e6e8ef;
+  text-decoration: none;
+  font-size: 20px;
+  margin-top: 10px;
+  font-family:monospace;
+  margin-bottom: 0px;
+  padding-left: 5px;
+}
+
+/*sélections et entrées utilisateur*/
+.user{
+  margin-top: 10px;
+  margin-left: 150px;
+  margin-right: 100px;
+}
+.user2{
+  margin-top: 10px;
+  margin-left: 150px;
+  margin-right: 0px;
+}
+.user3{
+  margin-top: 10px;
+  margin-left: 50px;
+  margin-right: 0px;
+}
+.btn{
+  height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 10pt;
+}
+.btn2{
+  height: 10px;
+  font-size: 10px;
+  text-decoration: none;
+}
+.btn3{
+  height: 50px;
+  font-size: 18px;
+  color: #4d567c;
+}
+/*sélecteur analyse*/
+.selector{
+   margin-bottom: 100px;
+ }
+ /*entrée nombre utilisateur*/
+ .enternumber{
+   padding-top:  10px;
+   margin-top: 10px;
+   width: 250px;
+ }
+
+/*réponses du système*/
+.response{
+  background-color: white;
+}
+.sys{
+  margin: 1px 1px 1px 1px;
+}
+.sys2{
+  text-decoration: none;
+  font-size: 20px;
+  font-family:monospace;
+  margin-bottom: 0px;
+  margin-left: 50px;
+  }
+.syscomm{
+  height: 15px;
+  font-size: 10px;
+  text-align: right;
+}
+.syscheck{
+  height: 15px;
+  font-size: 10px;
+  text-align: left;
+}

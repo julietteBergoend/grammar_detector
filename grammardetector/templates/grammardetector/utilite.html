@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!--chargement des fichiers css dans static -->
+    {% load static %}
+    <meta charset="utf-8">
+    <link rel="icon" href="{% static 'media/letter_g.ico' %}" />
+    <title>GrammarDetector - Informations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/aide.css'%}">
+  </head>
+  <body>
+  <div class="container-fluid">
+    <div class="row">
+      <!--barre de navigation-->
+      <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+        <ul class="nav flex-column">
+          <h6 class="sidebar-heading text-right px-3 mt-4 mb-4 text-light">
+            <b>Informations</b>
+          </h6>
+            <li class="nav-item">
+              <a class="nav-link text-light text-right active" href="#analyseur">Analyseur</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light text-right active" href="#bdd">Alimentez votre base</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light text-right active" href="#options">Options de l'analyse</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light text-right active" href="#autresoperations">Autres opérations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light text-right active" href="#recherchetaille">Recherche par taille</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light text-right active" href="#recherchetag">Recherche par tag</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-right active go-outil" href="{% url 'outil' %}">Prêt ? Allons-y !</a>
+            </li>
+          </ul>
+          <!--footer de la barre de navigation-->
+          <div class="footer">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class=" nav-link text-secondary text-left" href="https://www.linkedin.com/in/juliette-bergo%C3%ABnd-76b571180/">Juliette Bergoënd</a>
+                <p class="footer-text text-secondary text-left">Master 2 Traitement Automatique des Langues</p>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!--Fin de la navbar-->
+        <!--Corps de la page, architecture inspirée d'un modèle boostrap-->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary title">
+            <h1 class="h2"><b>Informations sur l'application</b></h1>
+          </div>
+          <div>
+            <p class="text">GrammarDetector est une application crée spécialement pour tester la grammaticalité de vos phrases.<br/>
+            Mais l'application vous permet également d'afficher les occurrences de votre phrase, son nombre de mots et ses
+            dépendences. Ici Vous trouverez toutes les informations sur son fonctionnement.</p>
+          </div>
+
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary title">
+            <h3 id='analyseur'><b>Analyseur</b></h3>
+          </div>
+            <p class="text">
+              1. Entrez une phrase dans la zone de texte, celle-ci ne doit pas dépasser 20 mots. Cliquez sur 'Grammarizing'.
+            </p>
+            {% load static %}
+            <img src="{% static 'media/entre_texte.png' %}" alt="image" class="img-thumbnail img-fluid">
+            <p class="text">
+              2. Votre phrase est parsée, transformée en suite de tags, puis traverse notre base de données remplie
+              de listes de phrases tagées. Si votre phrase correspond ou ne correspond pas à une phrase de la base de
+              données, GrammarDetector vous le signalera par la couleur verte ou rouge.
+            </p>
+            {% load static %}
+            <img src="{% static 'media/reponse_gramm.png' %}" alt="image" class="img-thumbnail img-fluid">
+            {% load static %}
+            <img src="{% static 'media/reponse_gramm_2.png' %}" alt="image" class="img-thumbnail mt-1 img-fluid">
+
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary">
+            <h3 id='bdd'><b>Alimentez votre base</b></h3>
+          </div>
+          <p class="text">
+            Il se peut que vous ne soyez pas d'accord avec l'analyse de GrammarDetector. Dans ce cas, il
+            est possible d'alimenter la base de données en vous rendant sur le bouton suivant :
+          </p>
+          {% load static %}
+          <img src="{% static 'media/corriger_bdd.png' %}" alt="image" class="img-thumbnail img-fluid">
+          <p class="text">
+            Celui-ci vous conduira sur la page suivante :
+          </p>
+          {% load static %}
+          <img src="{% static 'media/admin.png' %}" alt="image" class="img-thumbnail img-fluid">
+          <p class="text">
+            Vous pourrez effectuer un ajout de suite de tags en vous rendant dans Tagss, mais veillez à respecter la
+            syntaxe ci-dessous :
+          </p>
+          {% load static %}
+          <img src="{% static 'media/corriger_bdd_tag.png' %}" alt="image" class="img-thumbnail img-fluid">
+          <p class="text">
+            N'oubliez pas d'enregister, et les tags entrés seront maintenant reconnus par GrammarDetector.
+          </p>
+
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary">
+            <h3 id='options'><b>Options de l'analyse</b></h3>
+          </div>
+          {% load static %}
+          <img src="{% static 'media/options_analyse.png' %}" alt="image" class="img-thumbnail img-fluid">
+          <p class="text">
+            Une fois la phrase analysée vous avez la possibilité d'observer le nombre de mots de votre phrase,
+            ses occurrences, ses lemmes, et ses dépendences.
+          </p>
+
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary title">
+            <h3 id='autresoperations'><b>Autres opérations</b></h3>
+          </div>
+          <p class="text">
+            D'autres options sont là pour vous faire explorer notre base de données. Ainsi vous pouvez demander
+            des phrases selon leur longueur ou demander des phrases contenant un tag spécial. Cela pourra vous
+            aider dans la construction de vos phrases.
+            Pour accéder à ces opérations vous pouvez cliquer sur le lien sous l'entrée de texte :
+          </p>
+          {% load static %}
+          <img src="{% static 'media/autres_op.png' %}" alt="image" class="img-thumbnail img-fluid">
+
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary">
+            <h3 id='recherchetaille'><b>Recherche par taille</b></h3>
+          </div>
+          <p class="text">
+            Sur le menu déroulant, choisissez l'option suivante :
+          </p>
+          {% load static %}
+          <img src="{% static 'media/entre_nombre.png' %}" alt="image" class="img-thumbnail img-fluid">
+          <p class="text">
+            Une nouvelle fenêtre s'affiche, et vous n'avez plus qu'à entrer un nombre en 1 et 20. Toutes les
+            phrases de notre base de données correspondant à ce nombre s'afficheront.
+          </p>
+
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-secondary">
+            <h3 id='recherchetag'><b>Recherche par tag</b></h3>
+          </div>
+          <p class="text">
+            Sur le menu déroulant, choisissez l'option suivante :
+          </p>
+          {% load static %}
+          <img src="{% static 'media/entre_tag.png' %}" alt="image" class="img-thumbnail img-fluid">
+          <p class="text">
+            Une nouvelle fenêtre s'affiche et vous offre la possiblilité de choisir entre différents tags.
+            Les phrases affichées sont des phrases contenant ce tag.
+          </p>
+        </main>
+
+      </div>
+    </div>
+  </body>
+</html>

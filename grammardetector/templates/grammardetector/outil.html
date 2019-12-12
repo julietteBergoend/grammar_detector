@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!--chargement des fichiers css dans static -->
+    {% load static %}
+    <meta charset="utf-8">
+    <link rel="icon" href="{% static 'media/letter_g.ico' %}" />
+    <title>GrammarDetector - Outils</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--chargement des fichiers css dans static -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/outil.css'%}">
+  </head>
+
+    <body>
+      <!--Entete-->
+      <div class="container-fluid col-lg-7 border text-center bg-dark">
+        <h1 class="text-white">GrammarDetector</h1>
+        </div>
+<!-- ######################################################################################################################################### -->
+        <!--Partie haute de la page, de gauche à droite-->
+        <div class="row row1">
+        <!--Dialogue gauche entrée et analyse de la phrase utilisateur-->
+        <center>
+          <form class="user" action = "{% url 'outil' %}"> <!--La page se recharge sur elle-meme et affiche le résultat sur elle-meme-->
+            <div class = "form-group mb-3 col-lg-12 bg-secondary border-dark ">
+              <label for="compteur" class="entrysys text-white">Entrez votre texte:</label>
+              <textarea class="form-control border-dark" name="phrasetexte"></textarea> <!--Texte que l'on récupère dans views-->
+              <button type="submit" class="btn btn-primary" title="Ce message ne s'enverra pas">Grammarizing</button> <!--Envoi du texte dans les views pour le traitement-->
+            </div>
+          </form>
+          <a class="btn3 text-left" href="#autresoperations">Une autre opération ?</a> <!--Si l'utilisateur veut faire une autre opération-->
+        </center>
+        <!--Analyse grammaticale de la phrase utilisateur-->
+          <div class='response col-lg-6'>
+            <center>
+              <div class="text-left col-lg-12">
+                <p class='entryresp'> GrammarDetector répond: </p>
+                <p class='sys'>Votre phrase : <b>{{compteur_mots}}</b></p>
+                {%if 'true' in answer%}
+                <p class='sys'>Cette phrase est <b class="text-success">grammaticalement correcte</b></p>
+                <p class='sys'>{{mots}}</p> <!--Affiche la phrase découpée en mots-->
+                <p class='sys text-success'>{{tokens}}</p> <!--Affiche la phrase découpée en tokens (vert)-->
+                <p class='syscomm' >Vous n'êtes pas d'accord ? <a class="btn2 btn-sm btn-primary" name="admin" href="http://127.0.0.1:8000/admin/" target="_blank" role="button">Voir BDD</a></p>
+                {%elif 'false' in answer%}
+                <p class='sys'>Cette phrase est <b class="text-danger">grammaticalement incorrecte</b></p>
+                <p class='sys'>{{mots}}</p> <!--Affiche la phrase découpée en mots-->
+                <p class='sys text-danger'>{{tokens}}</p> <!--Affiche la phrase découpée en tokens (rouge)-->
+                <p class='syscomm' >Vous n'êtes pas d'accord ? <a class="btn2 btn-sm btn-primary" name="admin" href="http://127.0.0.1:8000/admin/" target="_blank" role="button">Voir BDD</a></p>
+                {%else%}
+                <p></p> <!--Si l'utilisateur n'a rien entré on n'affiche rien -->
+                {%endif%}
+              </div>
+            </center>
+          <!--Analyse plus poussée de la phrase avec un sélecteur (en bas des premiers résultats)-->
+          <center>
+          <div class="text-left col-lg-12 border-top">
+            <p class="entryresp">Analyse de votre phrase</p>
+            <!--Système d'event js -> onclick
+            lorsqu'on clique sur une case, la div en display:none apparaît-->
+              <div class="row3">
+                <input class="form-check-input syscheck" type="checkbox" value="" id="defaultCheck1" onclick= "document.getElementById('nbmots').style.display='block'"> <!--On click dévoile le block qui lui correspond quand on coche la case-->
+                <label class="form-check-label" for="defaultCheck1">Nombre de mots</label>
+              </div>
+              <p class='sys' id='nbmots' style='display:none'><b>{{liste_mots}} mots</b></p> <!--La ligne est cachée jusqu'à ce que l'utilisateur coche la case qui lui correspond-->
+
+              <div class="row3">
+                <input class="form-check-input syscheck" type="checkbox" value="" id="defaultCheck1" onclick= "document.getElementById('freqmots').style.display='block'">
+                <label class="form-check-label" for="defaultCheck1">Fréquence des mots</label>
+              </div>
+              <p class='sys' id='freqmots' style='display:none'> <b>{{freqs}}</b></p>
+
+              <div class="row3">
+                <input class="form-check-input syscheck" type="checkbox" value="" id="defaultCheck1" onclick= "document.getElementById('lemmes').style.display='block'">
+                <label class="form-check-label" for="defaultCheck1">Lemmes de la phrase</label>
+              </div>
+              <p class='sys' id='lemmes' style='display:none'><b>{{lemmes}}</b></p>
+
+              <div class="row3">
+                <input class="form-check-input syscheck" type="checkbox" value="" id="defaultCheck1" onclick= "document.getElementById('dep').style.display='block'">
+                <label class="form-check-label" for="defaultCheck1">Dépendences de la phrase</label>
+              </div>
+              <p class='sys' id='dep' style='display:none'><b>{{depedencies}}</b></p>
+          </div>
+        </center>
+      </div>
+    </div>
+<!-- ######################################################################################################################################### -->
+<!--Deuxième partie de la page (en bas, de gauche à droite)-->
+    <div class="row row2 border">
+      <!--Dialogue sélection utilisateur-->
+      <div class='user2'>
+        <h2 id='autresoperations' class='entrysys'>Autres opérations </h2><br/>
+        <select class="custom-select col-lg-12 selector ">
+            <option selected>Faites votre choix</option>
+            <option value="1" name="longueurphrase" type = 'submit' onclick= "document.getElementById('phrasenumber').style.display='block'">Recherche de phrases par longueur</option>
+            <option value="2" name="recherchetag" onclick= "document.getElementById('selecttag').style.display='block'">Recherche par tags</option>
+          </select>
+      </div>
+      <!--Entrée nombre utilisateur, apparaît si cette option est choisie-->
+      <div id="phrasenumber" style='display:none' class="user3">
+        <form action = "{% url 'outil' %}"> <!-- Le résultat s'affiche sur cette page-->
+          <div class = "enternumber form-group mb-2 col-lg-12 bg-warning border-dark ">
+            <input class="form-control" name="phrasenumber" type="text" placeholder="Entre 1 et 20">
+            <button type="submit" class="btn btn-primary" title="Ce message ne s'enverra pas">Go</button>
+          </div>
+        </form>
+      </div>
+      <!--Recherche de phrases correspondant au nombre demandé-->
+      <div class='sys2'>
+        {%if nb_mots_phrase != None %}
+        <p class='sys2'>phrase avec <b>{{nb_mots_phrase}}</b> mots:</p><br/>
+        {%endif%}
+         {%for phrase in phrases_nombre_utilisateur%}
+        <li class='sys2 text-white'>{{phrase}}</li><br/>
+        {%endfor%}
+      </div>
+      <!--Entrée tag utilisateur, apparaît si cette option est choisie-->
+      <div id="selecttag" style='display:none' class="user3">
+        <form action = "{% url 'outil' %}"> <!-- Le résultat s'affiche sur cette page-->
+          <select class="custom-select col-lg-12 selector2" name="recherchetag">
+            <option selected="selected" disabled>Choisissez un tag</option>
+            <option>ADJ</option>
+            <option>ADP</option>
+            <option>ADV</option>
+            <option>DET</option>
+            <option>PRON</option>
+            <option>NOUN</option>
+            <option>NUM</option>
+            <option>PRON</option>
+            <option>PROPN</option>
+            <option>SCONJ</option>
+            <option>VERB</option>
+          </select>
+          <button type="submit" class="btn-primary">Go</button>
+        </form>
+      </div>
+      <!--Recherche de phrases correspondant au tag demandé-->
+      <div class="row">
+        <div class='sys2 col-lg-5'>
+          {%if tags_utilisateur != None %}
+          <p class='sys2'>Constructions possibles avec <b>{{tag_utilisateur}}</b>:</p>
+          {%endif%}
+          <ol>
+           {%for phrase in phrases%} <!--On affiche les phrases numérotées-->
+           <li class='sys2 text-white'>{{phrase}}</li><br/>
+           {%endfor%}
+         </ol>
+        </div>
+        <div class='sys2 col-lg-5'>
+          <ol>
+          {%for tag in tags_utilisateur%} <!--On affiche les tags à côté des phrases correspondantes-->
+            <li class='sys2 text-white'>{{tag}}</li><br/>
+          {%endfor%}
+          </ol>
+        </div>
+      </div>
+    </div> <!--fin deuxième ligne-->
+
+<!--Footer-->
+<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.linkedin.com/in/juliette-bergo%C3%ABnd-76b571180/">Juliette Bergoënd</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" tabindex="-1" aria-disabled="true">Master 2 Traitement Automatique des Langues</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</body>
+</html>
