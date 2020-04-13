@@ -1,0 +1,8 @@
+*.log
+*.pot
+*.pyc
+__pycache__/
+/home/lenovo/Documents/cours/genie_logiciel/django/blog_project/blog_project/settings.py
+db.sqlite3
+db.sqlite3-journal
+media

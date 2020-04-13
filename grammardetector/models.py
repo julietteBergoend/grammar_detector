@@ -8,6 +8,18 @@
 from django.db import models
 
 
+class Entrees(models.Model):
+    id_entree = models.AutoField(primary_key=True)
+    entree = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'Entrees'
+
+    def __str__(self):
+        return self.entree
+
+
 class Mots(models.Model):
     id_mots = models.AutoField(primary_key=True)
     mots = models.TextField()
@@ -16,9 +28,8 @@ class Mots(models.Model):
         managed = False
         db_table = 'Mots'
 
-    def __str__(self):
+    def __str__(self): #on affiche nos objets dans Admin avec leur contenu
         return self.mots
-
 
 class Phrases(models.Model):
     id_phrases = models.AutoField(primary_key=True)
@@ -43,6 +54,18 @@ class PhrasesHasMots(models.Model):
         unique_together = (('phrases_id_phrases', 'mots_id_mots'),)
 
 
+class Prononciations(models.Model):
+    id_prononciation = models.AutoField(primary_key=True)
+    prononciation = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'Prononciations'
+
+    def __str__(self): #on affiche nos objets dans Admin avec leur contenu
+        return self.prononciation
+
+
 class Tags(models.Model):
     id_tags = models.AutoField(primary_key=True)
     suite_tags = models.TextField()
@@ -51,7 +74,7 @@ class Tags(models.Model):
         managed = False
         db_table = 'Tags'
 
-    def __str__(self):
+    def __str__(self): #on affiche nos objets dans Admin avec leur contenu
         return self.suite_tags
 
 

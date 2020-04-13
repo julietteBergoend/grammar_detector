@@ -26,7 +26,7 @@
             <div class = "form-group mb-3 col-lg-12 bg-secondary border-dark ">
               <label for="compteur" class="entrysys text-white">Entrez votre texte:</label>
               <textarea class="form-control border-dark" name="phrasetexte"></textarea> <!--Texte que l'on récupère dans views-->
-              <button type="submit" class="btn btn-primary" title="Ce message ne s'enverra pas">Grammarizing</button> <!--Envoi du texte dans les views pour le traitement-->
+              <button type="submit" class="btn btn-primary" title="Clic">Grammarizing</button> <!--Envoi du texte dans les views pour le traitement-->
             </div>
           </form>
           <a class="btn3 text-left" href="#autresoperations">Une autre opération ?</a> <!--Si l'utilisateur veut faire une autre opération-->
@@ -36,7 +36,7 @@
             <center>
               <div class="text-left col-lg-12">
                 <p class='entryresp'> GrammarDetector répond: </p>
-                <p class='sys'>Votre phrase : <b>{{compteur_mots}}</b></p>
+                <p name = 'phrase' class='sys'>Votre phrase : <b>{{compteur_mots}}</b></p>
                 {%if 'true' in answer%}
                 <p class='sys'>Cette phrase est <b class="text-success">grammaticalement correcte</b></p>
                 <p class='sys'>{{mots}}</p> <!--Affiche la phrase découpée en mots-->
@@ -46,6 +46,11 @@
                 <p class='sys'>Cette phrase est <b class="text-danger">grammaticalement incorrecte</b></p>
                 <p class='sys'>{{mots}}</p> <!--Affiche la phrase découpée en mots-->
                 <p class='sys text-danger'>{{tokens}}</p> <!--Affiche la phrase découpée en tokens (rouge)-->
+
+                
+
+
+
                 <p class='syscomm' >Vous n'êtes pas d'accord ? <a class="btn2 btn-sm btn-primary" name="admin" href="http://127.0.0.1:8000/admin/" target="_blank" role="button">Voir BDD</a></p>
                 {%else%}
                 <p></p> <!--Si l'utilisateur n'a rien entré on n'affiche rien -->

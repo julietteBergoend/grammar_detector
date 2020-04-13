@@ -23,4 +23,5 @@ urlpatterns = [
     path('aide', grammardetector.views.helpmodule, name = "aide"),
     path('outil', grammardetector.views.affiche, name = "outil"),
 
+
 ]

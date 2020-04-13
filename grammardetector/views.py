@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from .models import Phrases, Tags, Mots #import des modèles qui nous seront utiles
+from .models import Phrases, Tags, Mots, Entrees, Prononciations #import des modèles qui nous seront utiles
 from django.conf import settings #import de settings car le modèle langagier se trouve dedans
+from django.shortcuts import redirect
 from spacy import displacy
 from django.http import HttpResponse #import des requetes https
+from .utils import decoupe_reste, sphinx_dic, prononciation, prononciation_to_str #script externe: forme toutes les phrases possibles d'une prononciation
 
 """VUES POUR LES LIENS VERS LES DIFFÉRENTES PAGES"""
 #ACCUEIL
@@ -19,6 +21,15 @@ def affiche(request):
     phrases = Phrases.objects
     suite_de_tags = Tags.objects
     suite_de_mots = Mots.objects
+    entree_dico = Entrees.objects
+    prononciation_dico = Prononciations.objects
+
+    #DICTIONNAIRE SPHINX
+    dictionnaire_sphinx_views = open('datasets/small.dic', 'r')
+    #transformation en objet dictionnaire pour le traitement python
+    dictionnaire_views = sphinx_dic(dictionnaire_sphinx_views)
+
+
     ###########################################################
     #TRAITEMENT DE L'ENTRÉE UTILISATEUR POUR L'ANALYSE GRAMMATICALE
     if 'phrasetexte' in request.GET: #phrasetexte est dans <form><textearea>
@@ -74,9 +85,38 @@ def affiche(request):
             elif liste_utilisateur != lst:
                 liste_answers.append('false')
         #outpus liste_answer = liste de true et false, ou seulement false
+        ############################################################
+        #CORRECTION DE LA PHRASE
+
+        #a) Trouver la prononciation de la phrase
+        prononciation_systeme = ''
+        phrases_possibles = None
+        if 'false' in liste_answers:
+            for mot in liste_mots: #parcourt la phrase
+                for entry in entree_dico.all(): #parcourt le dictionnaire
+                    if mot.lower() == str(entry).lower(): #si le mot de la phrase est dans les clés (mots) du dictionnaire, on garde sa prononciation
+                        prononciation_systeme += str(entry) + ' '
+                        prononciation_systeme.rstrip()
+            print(prononciation_systeme)
+            #appel des fonctions dans utils.py
+            prononciation_list = prononciation(prononciation_systeme, dictionnaire_views)
+            prononciation_finale = prononciation_to_str(prononciation_list)
+            print(prononciation_finale)
+
+            #donner toutes les phrases possibles à partir de cette prononciation
+            phrases_possibles = decoupe_reste(prononciation_finale)
+            print("DECOUPAGES : ")
+        print(phrases_possibles)
+
+        #donner la phrase correcte
+        
+
+
+
 
         return render(request, 'grammardetector/outil.html', {'compteur_mots':compteur_mots, 'liste_mots':len(liste_mots),
-            'freqs':freqs, 'tokens':liste_utilisateur, 'depedencies':liste_depedencies,'lemmes':liste_lemmes, 'mots': liste_mots, 'suite_tags_bdd': suite_de_tags, 'answer':liste_answers})
+            'freqs':freqs, 'tokens':liste_utilisateur, 'depedencies':liste_depedencies,'lemmes':liste_lemmes,
+            'mots': liste_mots, 'suite_tags_bdd': suite_de_tags, 'answer':liste_answers})
     ###########################################################
     #TRAITEMENT DE L'ENTRÉE UTILISATEUR POUR LA RECHERCHE DE PHRASES PAR NOMBRE DE MOTS
     elif  'phrasenumber' in request.GET:
@@ -99,6 +139,8 @@ def affiche(request):
 
         return render(request, 'grammardetector/outil.html', {'tag_utilisateur':tag_utilisateur,'tags_utilisateur': tags_utilisateur,
                                     'phrases': phrase_correspondante})
+
+
     #renvoi vers la page admin qd on clique sur le bouton BDD
     elif 'admin' in request.GET:
         return render(request, 'http://127.0.0.1:8000/admin/')
