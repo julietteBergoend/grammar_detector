@@ -46,9 +46,15 @@
                 <p class='sys'>Cette phrase est <b class="text-danger">grammaticalement incorrecte</b></p>
                 <p class='sys'>{{mots}}</p> <!--Affiche la phrase découpée en mots-->
                 <p class='sys text-danger'>{{tokens}}</p> <!--Affiche la phrase découpée en tokens (rouge)-->
+                <!--Correction en cas d'erreur-->
+                <div name="correction">
 
-                
-
+                    <p class = 'syscorrec text-success'><b>Voici une correction :</b><p>
+                      {%for suite in correction%}
+                      <p class = 'sys'>{{suite}}</p>
+                      {%endfor%}
+                    
+              </div>
 
 
                 <p class='syscomm' >Vous n'êtes pas d'accord ? <a class="btn2 btn-sm btn-primary" name="admin" href="http://127.0.0.1:8000/admin/" target="_blank" role="button">Voir BDD</a></p>

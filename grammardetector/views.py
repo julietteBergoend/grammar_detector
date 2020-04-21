@@ -25,10 +25,9 @@ def affiche(request):
     prononciation_dico = Prononciations.objects
 
     #DICTIONNAIRE SPHINX
-    dictionnaire_sphinx_views = open('datasets/small.dic', 'r')
+    dictionnaire_sphinx_views = open('datasets/frenchWords62K.dic', 'r')
     #transformation en objet dictionnaire pour le traitement python
     dictionnaire_views = sphinx_dic(dictionnaire_sphinx_views)
-
 
     ###########################################################
     #TRAITEMENT DE L'ENTRÉE UTILISATEUR POUR L'ANALYSE GRAMMATICALE
@@ -91,7 +90,9 @@ def affiche(request):
         #a) Trouver la prononciation de la phrase
         prononciation_systeme = ''
         phrases_possibles = None
-        if 'false' in liste_answers:
+        if 'true' in liste_answers:
+            print('rien à charger')
+        elif 'false' in liste_answers:
             for mot in liste_mots: #parcourt la phrase
                 for entry in entree_dico.all(): #parcourt le dictionnaire
                     if mot.lower() == str(entry).lower(): #si le mot de la phrase est dans les clés (mots) du dictionnaire, on garde sa prononciation
@@ -103,20 +104,43 @@ def affiche(request):
             prononciation_finale = prononciation_to_str(prononciation_list)
             print(prononciation_finale)
 
-            #donner toutes les phrases possibles à partir de cette prononciation
+            #b) Donner toutes les phrases possibles à partir de cette prononciation
             phrases_possibles = decoupe_reste(prononciation_finale)
-            print("DECOUPAGES : ")
-        print(phrases_possibles)
+            #print("DECOUPAGES : ")
+            #print(len(phrases_possibles))
 
-        #donner la phrase correcte
-        
-
-
-
+            #d) Donner la phrase correcte à l'utilisateur
+            phrase_correcte = ''
+            correction = []
+            for phrase in phrases_possibles:
+                #print(phrase)
+                str_phrase = ''
+                #transformer les listes en phrases:
+                for mot in phrase:
+                    str_phrase+=mot+' '
+                    str_phrase.rstrip()
+                #print(str_phrase)
+                #parsing spacy
+                correction_parse = lang(str_phrase)
+                #conversion du parsing en format traitable avec la BDD 'ADJ, V, ..., '
+                liste_tokens_correction = ''
+                for token in correction_parse:
+                    liste_tokens_correction += token.pos_ +", "
+                    liste_tokens_correction.rstrip()
+                tags_system = liste_tokens_correction[:-2] #on ne prend pas ', ' en trop
+                #print(tags_system)
+                #on parcourt la bdd
+                for lst in suite_de_tags.all():
+                    if str(lst) == tags_system:
+                        #print(lst, 'ok')
+                        correc = str_phrase + ": " + str(lst) #phrase correspondante à la suite de tags
+                        correction.append(correc)
+            print(correction)
 
         return render(request, 'grammardetector/outil.html', {'compteur_mots':compteur_mots, 'liste_mots':len(liste_mots),
             'freqs':freqs, 'tokens':liste_utilisateur, 'depedencies':liste_depedencies,'lemmes':liste_lemmes,
-            'mots': liste_mots, 'suite_tags_bdd': suite_de_tags, 'answer':liste_answers})
+            'mots': liste_mots, 'suite_tags_bdd': suite_de_tags, 'answer':liste_answers,
+            'phrases_possibles': phrases_possibles, 'correction': correction})
     ###########################################################
     #TRAITEMENT DE L'ENTRÉE UTILISATEUR POUR LA RECHERCHE DE PHRASES PAR NOMBRE DE MOTS
     elif  'phrasenumber' in request.GET:

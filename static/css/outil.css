@@ -81,6 +81,10 @@ body{
 .sys{
   margin: 1px 1px 1px 1px;
 }
+.syscorrec{
+  padding-top: 15px;
+  padding-bottom: 0px;
+}
 .sys2{
   text-decoration: none;
   font-size: 20px;

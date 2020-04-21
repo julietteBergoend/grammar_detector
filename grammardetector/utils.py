@@ -66,7 +66,7 @@ def trouver_mots(prononciation) :
 # suites contient des decoupages d'une partie d'une chaine
 def ajoute(debut, suites) :
 
-	print("Adding " + debut + " to " + str(suites))
+	#print("Adding " + debut + " to " + str(suites))
 
 	if (not suites) :
 		# ici suites == False
@@ -93,16 +93,16 @@ def decoupe_reste(chaine_phonemes):
 
 	# si la chaine_phonemes contient 1 seul phoneme :
 	if len(chaine_phonemes.split(" ")) == 1:
-		print("Chaine avec un seul phoneme : " + chaine_phonemes)
+		#print("Chaine avec un seul phoneme : " + chaine_phonemes)
 		# on verifie si c'est un mot possible :
 		mots = trouver_mots(chaine_phonemes)
 		decoupages = []
 		if (len(mots) > 0) :
-			for m in mots :
-				print("Mot trouvé : " + m)
+			#for m in mots :
+				#print("Mot trouvé : " + m)
 			return [mots]
 		else:
-			print("Pas de mot trouve.")
+			#print("Pas de mot trouve.")
 			return False
 
 	debut = ""	# variable qui contient le debut de la souchaine.
@@ -130,15 +130,15 @@ def decoupe_reste(chaine_phonemes):
 			#print("Mots trouves : " + str(premier_mots))
 
 			reste_de_la_chaine =  chaine_phonemes[len(debut):].strip() #le restant de la chaine apres le debut
-			print("Reste de la chaine : " + reste_de_la_chaine)
+			#print("Reste de la chaine : " + reste_de_la_chaine)
 			# on examine si le reste de la chaine peut etre decoupe a partie du dictionnaire
 
 			for p in premier_mots :
 				t = ajoute(p, decoupe_reste(reste_de_la_chaine))
 				if t :
 					suites.extend(t)
-		else:
-			print("Pas de mot pour ce debut.")
+		#else:
+			#print("Pas de mot pour ce debut.")
 
 	#print suites
 	if (not debut_possible_trouve) :
@@ -146,6 +146,6 @@ def decoupe_reste(chaine_phonemes):
 	return suites
 
 
-dictionnaire_sphinx = open('datasets/small.dic', 'r')
+dictionnaire_sphinx = open('datasets/frenchWords62K.dic', 'r')
 #transformation en objet dictionnaire pour le traitement python
 dictionnaire = sphinx_dic(dictionnaire_sphinx)
